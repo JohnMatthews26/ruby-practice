@@ -10,10 +10,12 @@ end
 
 def my_flatten(arr)
   new_arr = []
-  if arr[0].class != Array
-    return arr[0]
+  if arr.class != Array
+    return (new_arr += [arr])
   else
-    new_arr += my_flatten(arr[1..-1])
+    arr.each do |x|
+      new_arr += my_flatten(x)
+    end
   end
   new_arr
 end
