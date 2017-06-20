@@ -27,7 +27,7 @@ def example_select_with_subquery
         FROM
           countries
         WHERE
-          name = 'Russia'
+          name='Romania'
         )
   SQL
 end
@@ -60,15 +60,14 @@ def richer_than_england
   FROM
     countries
   WHERE
-     continent = 'Europe' and (gdp / population) > (
+    continent = 'Europe' and (gdp/population) > (
       SELECT
-        (gdp / population)
-      from
+        (gdp/population)
+      FROM
         countries
-      where
-      name = 'United Kingdom'
-    )
-
+      WHERE
+        name='United Kingdom'
+      )
   SQL
 end
 
@@ -81,13 +80,13 @@ def neighbors_of_certain_b_countries
   FROM
     countries
   WHERE
-    continent IN (
+    continent in (
       SELECT
         continent
       FROM
         countries
       WHERE
-        name in ('Belgium', 'Belize')
+        name='Belize' or name = 'Belgium'
       )
   SQL
 end
@@ -107,15 +106,13 @@ def population_constraint
       FROM
         countries
       WHERE
-        name = 'Canada'
-      ) and population < (
+        name = 'Canada') and population < (
         SELECT
           population
         FROM
           countries
         WHERE
-          name = 'Poland'
-        )
+          name = 'Poland')
   SQL
 end
 
@@ -128,17 +125,17 @@ def sparse_continents
   SELECT
     name, continent, population
   FROM
-   countries
-   where
-   continent in (
-    SELECT
+    countries
+  WHERE
+    continent in (
+      SELECT
       continent
-    FROM
+      FROM
       countries
-    GROUP BY
+      GROUP BY
       continent
-    HAVING
-      Max(population) < 25000000
-  )
+      HAVING
+      MAX(population) < 25000000
+    )
   SQL
 end

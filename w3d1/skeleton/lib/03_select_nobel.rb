@@ -62,12 +62,12 @@ end
 def millennial_peace_prizes
   # Give the name of the 'Peace' winners since the year 2000, including 2000.
   execute(<<-SQL)
-  SELECT distinct
+  SELECT
     winner
   FROM
     nobels
   WHERE
-    yr >= 2000 AND subject = 'Peace'
+    subject = 'Peace' and yr >= 2000
   SQL
 end
 
@@ -80,7 +80,7 @@ def eighties_literature
   FROM
     nobels
   WHERE
-    yr between 1980 and 1989 AND subject = 'Literature'
+    subject = 'Literature' and yr between 1980 and 1989
   SQL
 end
 

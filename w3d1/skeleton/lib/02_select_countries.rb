@@ -30,7 +30,7 @@ def large_countries
   FROM
     countries
   WHERE
-    population > 200000000
+    population >= 200000000
   SQL
 end
 
@@ -39,15 +39,11 @@ def high_population_gdps
   # of at least 200 million.
   execute(<<-SQL)
   SELECT
-    name, gdp / population
-  FROM (
-    SELECT
-      name, gdp, population
-    FROM
-      countries
-    WHERE
-      population > 200000000
-    ) AS per_capita_gdp
+    name, (gdp/population)
+  FROM
+    countries
+  WHERE
+    population >= 200000000
   SQL
 end
 
@@ -57,15 +53,11 @@ def population_in_millions
   # millions.
   execute(<<-SQL)
   SELECT
-    name, population / 1000000
-  FROM (
-    SELECT
-      name, population
-    FROM
-      countries
-    WHERE
-      continent = 'South America'
-    ) AS population_in_millions
+    name, (population/1000000)
+  FROM
+    countries
+  WHERE
+    continent = 'South America'
   SQL
 end
 
@@ -74,10 +66,10 @@ def name_and_population
   execute(<<-SQL)
   SELECT
     name, population
-  from
+  FROM
     countries
-  where
-    name IN ('France', 'Germany', 'Italy')
+  WHERE
+    name in ('France', 'Germany', 'Italy')
   SQL
 end
 
@@ -86,9 +78,9 @@ def united_we_stand
   execute(<<-SQL)
   SELECT
     name
-  from
+  FROM
     countries
-  where
+  WHERE
     name like '%United%'
   SQL
 end
