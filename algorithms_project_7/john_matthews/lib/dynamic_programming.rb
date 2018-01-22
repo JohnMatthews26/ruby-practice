@@ -2,7 +2,7 @@ class DynamicProgramming
 
   def initialize
     @blair_cache = {1 => 1, 2 => 2, 3 => 6}
-    @sf_cache = {}
+    @frogs_cache = {}
   end
 
   def blair_nums(n)
@@ -81,10 +81,10 @@ class DynamicProgramming
   end
 
   def super_frog_hops(n, k)
-    if @sf_cache[k].nil?
-      @sf_cache[k] = { 0 => [[]], 1 => [[1]]}
+    if @frogs_cache[k].nil?
+      @frogs_cache[k] = { 0 => [[]], 1 => [[1]]}
     end
-    return @sf_cache[k][n] if @sf_cache[k][n]
+    return @frogs_cache[k][n] if @frogs_cache[k][n]
     superfrog = []
     if n < k
       k = n
@@ -92,7 +92,7 @@ class DynamicProgramming
     (1..k).each do |idx|
       superfrog += super_frog_hops(n - idx, k).map { |el| el + [idx] }
     end
-    @sf_cache[k][n] = superfrog
+    @frogs_cache[k][n] = superfrog
     superfrog
   end
 
