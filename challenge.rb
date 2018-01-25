@@ -65,4 +65,43 @@ def holiday_trip(a)
   return min
 end
 
-p holiday_trip([0])
+def holiday_trip2(a)
+  return 1 if a.length == 1
+  count = {}
+  best_range = [0]
+
+  a.each_with_index do |loc, orig_idx|
+    #check whether the location is a new location
+    if count[loc]
+      count[loc] += 1
+      # if existing location and the beginning of the best_range is the same location
+      if a[best_range[0]] == loc
+        count_dup = count.dup
+        new_range = a[best_range[0]..orig_idx]
+        # determine whether it is possible to construct a shorter time_span with latest location
+        new_range.each_with_index do |el, sec_idx|
+          if count_dup[el] == 1 && best_range[1] - best_range[0] >= orig_idx - sec_idx
+            best_range = [sec_idx, orig_idx]
+            count_dup[el] -= 1
+            if count_dup[el] == 0
+              break
+            end
+          elsif count_dup[el] == 1
+            break
+          else
+            count_dup[el] -= 1
+          end
+        end
+      end
+    else
+      #for new location, adjust best_range to include new location
+      count[loc] = 1
+      best_range = [best_range[0], orig_idx]
+    end
+  end
+  return best_range[1] - best_range[0] + 1
+
+end
+
+p holiday_trip2([2, 1, 1, 3, 2, 1, 1, 3])
+p holiday_trip2([7, 5, 2, 7, 2, 7, 4, 7])
