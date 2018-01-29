@@ -66,6 +66,7 @@ def holiday_trip(a)
 end
 
 def holiday_trip2(a)
+  
   return 1 if a.length == 1
   count = {}
   best_range = [0]
