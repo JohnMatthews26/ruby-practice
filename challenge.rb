@@ -66,7 +66,7 @@ def holiday_trip(a)
 end
 
 def holiday_trip2(a)
-  
+
   return 1 if a.length == 1
   count = {}
   best_range = [0]
@@ -106,3 +106,4 @@ end
 
 p holiday_trip2([2, 1, 1, 3, 2, 1, 1, 3])
 p holiday_trip2([7, 5, 2, 7, 2, 7, 4, 7])
+p holiday_trip2([0])
