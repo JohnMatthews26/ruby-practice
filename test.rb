@@ -1,35 +1,38 @@
-#recursively go through the sentence every time there is a new set of potential options
-#resulting array will contain subarrays of potential options for each portion of the sentence
-def random_sentence(inp, res = [])
-    open_count = 0
-    end_count = 0
-    str = ""
-    options = []
-    ltr_arr = inp.chars
-    ltr_arr.each_with_index do |ltr, idx|
-        if ltr == "{"
-            open_count += 1
-            if str.length != 0 && (open_count - end_count) == 1
-                options.push(str)
-                random_sentence(inp[idx..-1], options)
-            elsif str.length != 0
-                str += random_sentence(inp[idx..-1], options)
-            end
-        elsif ltr == "}"
-            end_count += 1
 
-        elsif ltr == "|"
-            options.push(str)
-            str = ""
-        else
-            str += ltr
-        end
+def random_sentence(inp)
+  #add each segment of the string
+  str = ""
+  #use helper function each time there is an option
+  ltr_arr = inp.chars
+  #iterate through the characters to find unique chars
+  e_count = 0
+  open_count = 0
+  #keep track of last open brace
+  last_open = 0
+  ltr_arr.each_with_index do |ltr, idx|
+    if ltr == "{"
+      last_open = idx
+      open_count += 1
+    elsif ltr = "}"
+      # returns a option from the choices
+      e_count += 1
+      #take the string from the start of last open to current idx - 1 and split by "|"
+       res = helper(inp[(last_open + 1)..(idx - 1)].split("|"))
+       if open_count == e_count
+         str += res
+       else
+         helper()
+       end
+    elsif open_count == e_count
+      # adds the non option text
+      str += ltr
     end
-    result_str = str
-
-    if res.shuffle[0]
-        result_str += res.shuffle[0]
-    end
-    result_str
+  end
 end
+
+#helper randomly returns one of the options
+def helper(arr)
+  arr.shuffle[0]
+end
+
 p random_sentence("{I am|I'm} {working on|starting} this {online |}interview. I hope Cortx thinks I am {{very|extremely} qualified|great|awesome}{!|.}")
