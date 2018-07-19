@@ -1,5 +1,6 @@
 
 def random_sentence(inp)
+  placeholder = ""
   #add each segment of the string
   str = ""
   #use helper function each time there is an option
@@ -13,26 +14,30 @@ def random_sentence(inp)
     if ltr == "{"
       last_open = idx
       open_count += 1
-    elsif ltr = "}"
+    elsif ltr == "}"
       # returns a option from the choices
       e_count += 1
       #take the string from the start of last open to current idx - 1 and split by "|"
-       res = helper(inp[(last_open + 1)..(idx - 1)].split("|"))
+      res = inp[(last_open + 1)..(idx - 1)].split("|").shuffle[0]
+      if placeholder.length != 0
+        res = (placeholder + inp[(last_open + 1)..(idx - 1)]).split("|").shuffle[0]
+      end
        if open_count == e_count
          str += res
+         placeholder = ""
        else
-         helper()
+         last_open = idx
+         placeholder += res
        end
     elsif open_count == e_count
       # adds the non option text
       str += ltr
     end
   end
+  str
 end
 
 #helper randomly returns one of the options
-def helper(arr)
-  arr.shuffle[0]
-end
+
 
 p random_sentence("{I am|I'm} {working on|starting} this {online |}interview. I hope Cortx thinks I am {{very|extremely} qualified|great|awesome}{!|.}")
